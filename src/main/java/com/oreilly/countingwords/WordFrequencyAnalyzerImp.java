@@ -35,12 +35,29 @@ public class WordFrequencyAnalyzerImp {
     }
     protected int calculateFrequencyForWord(String text,String word) {
 
-        String[] words = text.toLowerCase().split(regex);
-        Map<String, Integer> map = new HashMap<>();
-        for (String w : words) {
-            map.put(w, map.getOrDefault(w, 0) + 1);
+        if (text == null || text.trim().isEmpty() || word == null || word.trim().isEmpty()) {
+            return 0;
         }
-        return map.getOrDefault(word, 0);
+        String lowerCaseText = text.toLowerCase();
+        String lowerCaseWord = word.toLowerCase();
+
+        String[] words = lowerCaseText.split("[^a-zA-Z]+");
+
+        int count = 0;
+        for (String w : words) {
+            if (w.equals(lowerCaseWord)) {
+                count++;
+            }
+        }
+
+        return count;
+
+//        String[] words = text.toLowerCase().split(regex);
+//        Map<String, Integer> map = new HashMap<>();
+//        for (String w : words) {
+//            map.put(w, map.getOrDefault(w, 0) + 1);
+//        }
+//        return map.getOrDefault(word, 0);
     }
 
     protected List<WordFrequencyImp> calculateMostFrequentNWords(String text, int n) {

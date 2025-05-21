@@ -76,17 +76,29 @@ public class WordFrequency {
         return highestWord.isEmpty() ? "No valid words found." : highestWord;
     }
 
-    private int calculateFrequencyForWord(String text,String word) {
-
-        Map<String, Integer> map = new HashMap<>();
-        String[] words = text.toLowerCase().split("([A-Za-z]+)|([^A-Za-z]+)");
-        for (String w : words) {
-            if(!w.trim().isEmpty()) {
-                map.put(w, map.getOrDefault(w, 0) + 1);
-            }
-
+    private int calculateFrequencyForWord(String text, String word) {
+        if (text == null || text.trim().isEmpty() || word == null || word.trim().isEmpty()) {
+            return 0;
         }
-        return map.getOrDefault(word, 0);
+
+        text = text.replaceAll("^\"|\"$", "");
+        word = word.replaceAll("^\"|\"$", "");
+
+        String lowerCaseText = text.toLowerCase();
+        String lowerCaseWord = word.toLowerCase();
+
+        String[] words = lowerCaseText.split("[^a-zA-Z]+");
+
+        System.out.println("Split words: " + String.join(", ", words));
+
+        int count = 0;
+        for (String w : words) {
+            if (w.equals(lowerCaseWord)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     protected List<WordFrequencyImp> calculateMostFrequentNWords(String text, int n) {
